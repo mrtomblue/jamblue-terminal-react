@@ -1,0 +1,24 @@
+{
+  "name": "@jamblue/terminal-react",
+  "version": "0.1.0",
+  "description": "@jamury/terminal component built for react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrtomblue/jamblue-terminal-react.git"
+  },
+  "keywords": [
+    "jamblue",
+    "ui",
+    "component"
+  ],
+  "author": "opensource@mrtomblue.com",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/mrtomblue/jamblue-terminal-react/issues"
+  },
+  "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme"
+}
