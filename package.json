@@ -1,24 +1,34 @@
 {
-  "name": "@jamblue/terminal-react",
-  "version": "0.1.0",
-  "description": "@jamury/terminal component built for react",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mrtomblue/jamblue-terminal-react.git"
-  },
-  "keywords": [
-    "jamblue",
-    "ui",
-    "component"
-  ],
-  "author": "opensource@mrtomblue.com",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/mrtomblue/jamblue-terminal-react/issues"
-  },
-  "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme"
+    "name": "@jamblue/terminal-react",
+    "version": "0.1.0",
+    "description": "@jamury/terminal component built for react",
+    "main": "cjs/main.js",
+    "types": "lib/types/main.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mrtomblue/jamblue-terminal-react.git"
+    },
+    "keywords": [
+        "jamblue",
+        "ui",
+        "component"
+    ],
+    "author": "opensource@mrtomblue.com",
+    "license": "GPL-3.0-or-later",
+    "bugs": {
+        "url": "https://github.com/mrtomblue/jamblue-terminal-react/issues"
+    },
+    "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme",
+    "dependencies": {
+        "@jamblue/terminal": "^0.1.7",
+        "@types/react": "^18.2.14",
+        "react": "^18.2.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.1.6"
+    }
 }

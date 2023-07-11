@@ -23,27 +23,64 @@
 //     IconTerminal,
 //     IconTerminal2,
 // } from "@tabler/icons-react";
-import { createContext, useContext, useState } from "react";
+import {
+    PropsWithChildren,
+    ReactPropTypes,
+    createContext,
+    useContext,
+    useState,
+} from "react";
+// import Terminal as JamblueTerminal from "@jamblue/terminal";
+import JamblueTerminal, {
+    TerminalConfig,
+    TerminalItem,
+} from "@jamblue/terminal";
+import React = require("react");
 
-export const DashboardConsoleContext = createContext();
+type DashboardConsoleContextValue = {
+    Terminal: typeof JamblueTerminal.prototype;
+    // ConsoleLines: Array<TerminalItem>;
+    ConsoleLines: TerminalItem[];
+    // setConsoleLines: React.Dispatch<React.SetStateAction<Array<TerminalItem>>>;
+    setConsoleLines: React.Dispatch<React.SetStateAction<TerminalItem[]>>;
+};
+
+// // * modified version of from https://stackoverflow.com/a/64266985/17443354
+// // const useContextAndErrorIfNull = <DashboardConsoleContextValue>(context: React.Context<DashboardConsoleContextValue | null>): DashboardConsoleContextValue => {
+// const useContextAndErrorIfNull = (context: React.Context<DashboardConsoleContextValue | null>): DashboardConsoleContextValue => {
+// // const useContextAndErrorIfNull = (context: React.Context<DashboardConsoleContextValue>): DashboardConsoleContextValue => {
+//   const contextValue = useContext(context);
+//   if (contextValue === null) {
+//     throw Error("Context has not been Provided!");
+//   }
+//   return contextValue;
+// }
+
+// export const DashboardConsoleContext = createContext(null);
+export const DashboardConsoleContext =
+    createContext<DashboardConsoleContextValue>(
+        {} as DashboardConsoleContextValue
+    );
 export const useDashboardConsoleContext = () =>
     useContext(DashboardConsoleContext);
+// useContextAndErrorIfNull(DashboardConsoleContext);
 
-export function DashboardConsoleContextProvider(props) {
+export function DashboardConsoleContextProvider(props: PropsWithChildren) {
     const [ConsoleLines, setConsoleLines] = useState([
         {
             text: "Welcome :)",
             // type: "normal",
             type: "system",
             // mode: "command",
-            icon: IconTerminal,
+            icon: "terminal",
         },
     ]);
-    const Console_ = new __Console(ConsoleLines);
+
+    const Terminal = new JamblueTerminal(ConsoleLines, {} as TerminalConfig);
 
     return (
         <DashboardConsoleContext.Provider
-            value={{ Console_, ConsoleLines, setConsoleLines }}
+            value={{ Terminal, ConsoleLines, setConsoleLines }}
             {...props}>
             {props.children}
         </DashboardConsoleContext.Provider>
@@ -51,7 +88,7 @@ export function DashboardConsoleContextProvider(props) {
 }
 
 export function DashboardConsole() {
-    const { Console_, ConsoleLines, setConsoleLines } =
+    const { Terminal, ConsoleLines, setConsoleLines } =
         useDashboardConsoleContext();
     const { classes, cx } = useStyles();
     const [active, { toggle }] = useDisclosure(false);
@@ -86,12 +123,12 @@ export function DashboardConsole() {
     const [ActiveLineType, setActiveLineType] = useState("normal");
     // const [ActiveLineIcon, setActiveLineType] = useState(IconChevronRight);
 
-    console.log("terminal:", Console_.lines);
+    console.log("terminal:", Terminal.terminal);
 
-    // Console_.addLine({ text: "haha", type: "normal", icon: IconCode, id: uuidGen() });
-    // console.log("terminal 2:", Console_.lines);
+    // Terminal.addLine({ text: "haha", type: "normal", icon: IconCode, id: uuidGen() });
+    // console.log("terminal 2:", Terminal.lines);
 
-    const ConsoleLineTextColorSelector = (item, theme) => {
+    const ConsoleLineTextColorSelector = (item: TerminalItem, theme) => {
         switch (item.type) {
             case "system":
                 return theme.colors.gray[6];
@@ -103,8 +140,16 @@ export function DashboardConsole() {
         }
     };
 
-    const ConsoleLineIconColorSelector = (item) => {
-        const result = { color: "", variant: "light" };
+    interface ConsoleLineIconColorSelectorResult {
+        color: string | null;
+        variant: string | null;
+    }
+
+    const ConsoleLineIconColorSelector = (item: TerminalItem) => {
+        const result: ConsoleLineIconColorSelectorResult = {
+            color: "",
+            variant: "light",
+        };
 
         switch (item.type) {
             case "system":
@@ -117,8 +162,12 @@ export function DashboardConsole() {
                 break;
             case "normal":
             default:
-                result.color = null;
-                result.variant = null;
+                // result.color = null;
+                // result.variant = null;
+                // result.color = "currentcolor";
+                // result.variant = "currentcolor";
+                result.color = "";
+                result.variant = "";
         }
 
         console.log("colored: ", item.type, result);
@@ -126,48 +175,51 @@ export function DashboardConsole() {
         return result;
     };
 
-    const ConsoleLineFontStyleSelector = (item) => {
+    const ConsoleLineFontStyleSelector = (item: TerminalItem) => {
         switch (item.type) {
             case "system":
                 return "italic";
             case "normal":
             default:
-                return null;
+                // return null;
+                return "";
         }
     };
 
-    // Console_.log("ahah")
+    // Terminal.log("ahah")
 
     const StyledConsoleLines = ConsoleLines.map((item, ii) => {
         return (
-            <Flex
-                gap="xs"
-                justify="flex-start"
-                align="flex-start"
-                direction="row"
-                wrap="nowrap"
-                key={ii}
-                className={classes.consoleLine}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    gap: "4px",
+                }}
+                key={ii}>
                 {/* <Container sx={{ width: 16, height: 16 }}> */}
-                <ThemeIcon
-                    variant={ConsoleLineIconColorSelector(item).variant}
-                    radius="xl"
-                    color={ConsoleLineIconColorSelector(item).color}>
-                    <item.icon
-                        className={classes.consoleLineIcon}
-                        size={16}></item.icon>
-                </ThemeIcon>
+                <div
+                    style={{
+                        // backgroundColor:
+                        // ConsoleLineIconColorSelector(item).variant === "light"? "currentcolor" :,
+                        borderRadius: 24,
+                        color: ConsoleLineIconColorSelector(item).color,
+                    }}>
+                    <item.icon style={{ width: 16, height: 16 }}></item.icon>
+                </div>
                 {/* </Container> */}
-                <Text
-                    // fs={ConsoleLineFontStyleSelector(item)}
-                    sx={(theme) => ({
+                <div
+                    style={{
                         color: ConsoleLineTextColorSelector(item, theme),
                         fontStyle: ConsoleLineFontStyleSelector(item),
-                    })}
+                    }}
                     className={classes.consoleLineText}>
                     {item.text}
-                </Text>
-            </Flex>
+                </div>
+            </div>
         );
     });
 
@@ -195,18 +247,18 @@ export function DashboardConsole() {
                                         {
                                             console.log(
                                                 "hahahah",
-                                                Console_.commands
+                                                Terminal.commands
                                             );
 
                                             console.log(value);
-                                            Console_.addLine(value.command);
-                                            Console_.parse(value.command.text);
+                                            Terminal.addLine(value.command);
+                                            Terminal.parse(value.command.text);
                                             form.setFieldValue(
                                                 "command.text",
                                                 ""
                                             );
 
-                                            // Console_.removeAllLines();
+                                            // Terminal.removeAllLines();
                                         }
                                     )}>
                                     <Flex
