@@ -1,6 +1,6 @@
 {
     "name": "@jamblue/terminal-react",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "@jamury/terminal component built for react",
     "module": "cjs/main.tsx",
     "main": "cjs/main.tsx",
