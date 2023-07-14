@@ -26,6 +26,8 @@
 import JamblueTerminal, {
     TerminalConfig,
     TerminalItem,
+    TerminalItemIcon,
+    TerminalItemType,
 } from "@jamblue/terminal";
 
 import {
@@ -52,23 +54,26 @@ export const useTerminalWindow = () => useContext(TerminalWindowContext);
 // useContextAndErrorIfNull(TerminalWindowContext);
 
 export function TerminalWindowContextProvider(props: PropsWithChildren) {
-    const [ConsoleLines, setConsoleLines] = useState([
-        {
-            text: "Welcome :)",
-            // type: "normal",
-            type: "system",
-            // mode: "command",
-            icon: "terminal",
-        },
+    const initialStates = {
+        text: "Welcome :)",
+        // type: "normal",
+        type: "system",
+        // mode: "command",
+        icon: "terminal",
+    };
+    const [ConsoleLines, setConsoleLines] = useState<Array<TerminalItem>>([
+        initialStates as TerminalItem
     ]);
 
-    const Terminal = new JamblueTerminal(ConsoleLines, {} as TerminalConfig);
+    const Terminal = new JamblueTerminal(ConsoleLines, {} as TerminalConfig, {
+        activeStates: initialStates as TerminalItem,
+    });
 
     return (
         <TerminalWindowContext.Provider
             value={{ Terminal, ConsoleLines, setConsoleLines }}
             {...props}>
-            {...props.children}
+            {props.children}
         </TerminalWindowContext.Provider>
     );
 }
@@ -123,12 +128,17 @@ export function TerminalWindow(props: TerminalWindowProps) {
                 : `Invalid Command Characters, only alphanumeric characters, "-", "_" accepted`,
     };
 
-    const [ActiveLineIcon, setActiveLineIcon] = useState({
+    const [ActiveLineIcon, setActiveLineIcon] = useState<{
+        icon: TerminalItemIcon;
+        color: string;
+        variant: string;
+    }>({
         icon: "IconChevronRight",
         color: "",
         variant: "",
     });
-    const [ActiveLineType, setActiveLineType] = useState("normal":);
+    const [ActiveLineType, setActiveLineType] =
+        useState<TerminalItemType>("normal");
     // const [ActiveLineIcon, setActiveLineIcon] = useState("normal");
     const [ActiveLineText, setActiveLineText] = useState("");
     // const [ActiveLineIcon, setActiveLineType] = useState(IconChevronRight);
@@ -237,11 +247,9 @@ export function TerminalWindow(props: TerminalWindowProps) {
 
                 <div
                     {...props.props?.texts}
-
                     className={
                         props.classNames?.texts ? props.classNames.texts : ""
                     }
-
                     style={
                         props.styles?.texts
                             ? props.styles.texts
@@ -357,8 +365,7 @@ export function TerminalWindow(props: TerminalWindowProps) {
                         </div>
                     </form>
                 </div>
-                {/* </div> */}
-
+                
                 <div
                     {...props.props?.divider}
                     className={
