@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "ES6",
+        "jsx": "react-jsx",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "./cjs",
+        "declarationDir": "./cjs",
+        "sourceMap": true,
+        "sourceRoot": "./cjs"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "**/tests/*"]
+}

@@ -198,3 +198,4 @@ function TerminalWindow(props) {
                         : "", style: ((_p = props.styles) === null || _p === void 0 ? void 0 : _p.divider) ? props.styles.divider : {} })), (0, jsx_runtime_1.jsx)("div", Object.assign({}, (_q = props.props) === null || _q === void 0 ? void 0 : _q.footer, { className: ((_r = props.classNames) === null || _r === void 0 ? void 0 : _r.footer) ? props.classNames.footer : "", style: ((_s = props.styles) === null || _s === void 0 ? void 0 : _s.footer) ? props.styles.footer : {} }))] }) }));
 }
 exports.TerminalWindow = TerminalWindow;
+//# sourceMappingURL=main.js.map

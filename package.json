@@ -1,10 +1,10 @@
 {
     "name": "@jamblue/terminal-react",
-    "version": "0.1.2",
+    "version": "0.1.4",
     "description": "@jamury/terminal component built for react",
     "module": "cjs/main.tsx",
     "main": "cjs/main.tsx",
-    "types": "lib/types/main.d.ts",
+    "types": "cjs/main.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc"
