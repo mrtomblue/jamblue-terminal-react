@@ -4,7 +4,7 @@ package-lock.json
 pnpm-lock.yaml
 
 # testing
-# **/tests/*
+**/tests/*
 
 # debug
 npm-debug.log*
@@ -15,4 +15,4 @@ yarn-error.log*
 .env*.local
 
 # typescipt
-# tsconfig.json
+tsconfig.json
