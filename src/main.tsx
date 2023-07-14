@@ -23,38 +23,26 @@
 //     IconTerminal,
 //     IconTerminal2,
 // } from "@tabler/icons-react";
-import {
-    PropsWithChildren,
-    ReactPropTypes,
-    createContext,
-    useContext,
-    useState,
-} from "react";
-// import Terminal as JamblueTerminal from "@jamblue/terminal";
 import JamblueTerminal, {
     TerminalConfig,
     TerminalItem,
 } from "@jamblue/terminal";
-import React = require("react");
+
+import {
+    Dispatch,
+    PropsWithChildren,
+    SetStateAction,
+    createContext,
+    createElement,
+    useContext,
+    useState,
+} from "react";
 
 type TerminalWindowContextValue = {
     Terminal: typeof JamblueTerminal.prototype;
-    // ConsoleLines: Array<TerminalItem>;
     ConsoleLines: TerminalItem[];
-    // setConsoleLines: React.Dispatch<React.SetStateAction<Array<TerminalItem>>>;
-    setConsoleLines: React.Dispatch<React.SetStateAction<TerminalItem[]>>;
+    setConsoleLines: Dispatch<SetStateAction<TerminalItem[]>>;
 };
-
-// // * modified version of from https://stackoverflow.com/a/64266985/17443354
-// // const useContextAndErrorIfNull = <TerminalWindowContextValue>(context: React.Context<TerminalWindowContextValue | null>): TerminalWindowContextValue => {
-// const useContextAndErrorIfNull = (context: React.Context<TerminalWindowContextValue | null>): TerminalWindowContextValue => {
-// // const useContextAndErrorIfNull = (context: React.Context<TerminalWindowContextValue>): TerminalWindowContextValue => {
-//   const contextValue = useContext(context);
-//   if (contextValue === null) {
-//     throw Error("Context has not been Provided!");
-//   }
-//   return contextValue;
-// }
 
 // export const TerminalWindowContext = createContext(null);
 const TerminalWindowContext = createContext<TerminalWindowContextValue>(
@@ -76,38 +64,56 @@ export function TerminalWindowContextProvider(props: PropsWithChildren) {
 
     const Terminal = new JamblueTerminal(ConsoleLines, {} as TerminalConfig);
 
-    return React.createElement(TerminalWindowContext.Provider, {
-        value: { Terminal, ConsoleLines, setConsoleLines, ...props },
-        ...React.Children.toArray(props.children),
-    });
-    // (
-    // <TerminalWindowContext.Provider
-    //     value={{ Terminal, ConsoleLines, setConsoleLines }}
-    //     {...props}>
-    //     {props.children}
-    // </TerminalWindowContext.Provider>
-    // );
+    return (
+        <TerminalWindowContext.Provider
+            value={{ Terminal, ConsoleLines, setConsoleLines }}
+            {...props}>
+            {...props.children}
+        </TerminalWindowContext.Provider>
+    );
 }
 
 interface TerminalWindowProps {
     styles: {
-        lines: object;
-        icons: object;
-        texts: object;
+        container: object;
         header: object;
         footer: object;
         form: object;
+        lines: object;
+        icons: object;
+        texts: object;
+        divider: object;
     };
-    classNames: { lines: string; icons: string; texts: string };
-    props: { lines: object; icons: object; texts: object };
+
+    classNames: {
+        container: string;
+        header: string;
+        footer: string;
+        form: string;
+        lines: string;
+        icons: string;
+        texts: string;
+        divider: string;
+    };
+
+    props: {
+        container: object;
+        header: object;
+        footer: object;
+        form: object;
+        lines: object;
+        icons: object;
+        texts: object;
+        divider: object;
+    };
 }
 
 export function TerminalWindow(props: TerminalWindowProps) {
     const { Terminal, ConsoleLines, setConsoleLines } = useTerminalWindow();
-    const [active, { toggle }] = useDisclosure(false);
+    // const [active, { toggle }] = useDisclosure(false);
 
     const form = {
-        text: (value) =>
+        text: (value: any) =>
             /^[a-z0-9-_ ]*$/i.test(value)
                 ? null
                 : /^([-+/*]\d+(\.\d+)?)*/.test(value)
@@ -118,22 +124,27 @@ export function TerminalWindow(props: TerminalWindowProps) {
     };
 
     const [ActiveLineIcon, setActiveLineIcon] = useState({
-        icon: IconChevronRight,
+        icon: "IconChevronRight",
         color: "",
         variant: "",
     });
-    const [ActiveLineType, setActiveLineType] = useState("normal");
+    const [ActiveLineType, setActiveLineType] = useState("normal":);
+    // const [ActiveLineIcon, setActiveLineIcon] = useState("normal");
+    const [ActiveLineText, setActiveLineText] = useState("");
     // const [ActiveLineIcon, setActiveLineType] = useState(IconChevronRight);
 
-    const ConsoleLineTextColorSelector = (item: TerminalItem, theme) => {
+    const ConsoleLineTextColorSelector = (item: TerminalItem, theme?: any) => {
         switch (item.type) {
             case "system":
-                return theme.colors.gray[6];
+                // return theme.colors.gray[6];
+                return "gray";
             case "error":
-                return theme.colors.red[6];
+                // return theme.colors.red[6];
+                return "red";
             case "normal":
             default:
-                return theme.black;
+                // return theme.black;
+                return "black";
         }
     };
 
@@ -205,7 +216,6 @@ export function TerminalWindow(props: TerminalWindowProps) {
                           }
                 }
                 key={ii}>
-                {/* <Container sx={{ width: 16, height: 16 }}> */}
                 <div
                     {...props.props?.lines}
                     className={
@@ -224,12 +234,14 @@ export function TerminalWindow(props: TerminalWindowProps) {
                     }>
                     <item.icon style={{ width: 16, height: 16 }}></item.icon>
                 </div>
-                {/* </Container> */}
+
                 <div
                     {...props.props?.texts}
+
                     className={
                         props.classNames?.texts ? props.classNames.texts : ""
                     }
+
                     style={
                         props.styles?.texts
                             ? props.styles.texts
@@ -246,81 +258,126 @@ export function TerminalWindow(props: TerminalWindowProps) {
 
     return (
         <>
-            <Box>
-                <Paper radius={"md"} p={"md"} withBorder shadow="xl">
-                    <Stack sx={{ width: 480 }}>
-                        <div className={classes.consoleHeader}>
-                            Command Prompt
+            <div
+                style={
+                    props.styles?.container
+                        ? props.styles.container
+                        : {
+                              width: 480,
+                              borderRadius: 12,
+                              padding: 12,
+                              boxShadow: "",
+                          }
+                }
+                className={
+                    props.classNames?.container
+                        ? props.classNames.container
+                        : ""
+                }>
+                <div
+                    {...props.props?.header}
+                    className={
+                        props.classNames?.header ? props.classNames.header : ""
+                    }
+                    style={props.styles?.header ? props.styles.header : {}}>
+                    Terminal UI
+                </div>
+
+                <div
+                    {...props.props?.divider}
+                    className={
+                        props.classNames?.divider
+                            ? props.classNames.divider
+                            : ""
+                    }
+                    style={
+                        props.styles?.divider ? props.styles.divider : {}
+                    }></div>
+                <div>
+                    {StyledConsoleLines}
+                    <form
+                        name={"New Terminal Line"}
+                        onSubmit={(event: any) => {
+                            event.preventDefault();
+
+                            console.log("hahahah", Terminal.commands);
+
+                            console.log(event);
+                            Terminal.addLine({
+                                text: ActiveLineText,
+                                type: ActiveLineType,
+                                icon: ActiveLineIcon,
+                            });
+                            Terminal.parse("value.command.text");
+                            // form.setFieldValue("command.text", "");
+
+                            // Terminal.removeAllLines();
+                        }}>
+                        <div
+                            style={{
+                                gap: 12,
+                                justifyContent: "flex-start",
+                                alignItems: "flex-start",
+                                flexDirection: "row",
+                                flexWrap: "nowrap",
+                            }}
+                            className={""}>
+                            <div
+                                {...props.props?.lines}
+                                className={
+                                    props.classNames?.icons
+                                        ? props.classNames.icons
+                                        : ""
+                                }
+                                style={
+                                    props.styles?.icons
+                                        ? props.styles.icons
+                                        : {
+                                              // backgroundColor:
+                                              // ConsoleLineIconColorSelector(item).variant === "light"? "currentcolor" :,
+                                              borderRadius: 24,
+                                              color: ActiveLineIcon.color,
+                                          }
+                                }>
+                                <ActiveLineIcon.icon
+                                    className={""}
+                                    style={{
+                                        width: 16,
+                                        height: 16,
+                                    }}></ActiveLineIcon.icon>
+                            </div>
+                            <input
+                                onChange={(event) =>
+                                    setActiveLineText(event.currentTarget.value)
+                                }
+                                value={ActiveLineText}
+                                style={{ border: "none" }}
+                                className={""}
+                            />
                         </div>
-                        <Divider></Divider>
-                        <FocusTrap active={active}>
-                            <ScrollArea
-                                onClick={toggle}
-                                offsetScrollbars
-                                type={"auto"}
-                                h={180}>
-                                {StyledConsoleLines}
-                                <form
-                                    onSubmit={form.onSubmit((value) =>
-                                        // value.forEach((item, ii) => {
-                                        // console.log(value)
-                                        // })
-                                        {
-                                            console.log(
-                                                "hahahah",
-                                                Terminal.commands
-                                            );
+                    </form>
+                </div>
+                {/* </div> */}
 
-                                            console.log(value);
-                                            Terminal.addLine(value.command);
-                                            Terminal.parse(value.command.text);
-                                            form.setFieldValue(
-                                                "command.text",
-                                                ""
-                                            );
-
-                                            // Terminal.removeAllLines();
-                                        }
-                                    )}>
-                                    <div
-                                        gap="xs"
-                                        justify="flex-start"
-                                        align="flex-start"
-                                        direction="row"
-                                        wrap="nowrap"
-                                        className={classes.consoleLine}>
-                                        <ThemeIcon
-                                            color={ActiveLineIcon.color}
-                                            variant={ActiveLineIcon.variant}
-                                            radius="xl">
-                                            <ActiveLineIcon.icon
-                                                className={
-                                                    classes.consoleLineIcon
-                                                }
-                                                size={16}></ActiveLineIcon.icon>
-                                        </ThemeIcon>
-                                        <Input
-                                            styles={(theme) => ({
-                                                input: { border: "none" },
-                                            })}
-                                            sx={(theme) => ({
-                                                color: theme.black,
-                                            })}
-                                            className={classes.consoleLineText}
-                                            data-autofocus
-                                            {...form.getInputProps(
-                                                "command.text"
-                                            )}
-                                        />
-                                    </div>
-                                </form>
-                            </ScrollArea>
-                        </FocusTrap>
-                        <Divider></Divider>
-                        <div className={classes.consoleFooter}></div>
-                    </Stack>
-                </Paper>
-            </Box>
+                <div
+                    {...props.props?.divider}
+                    className={
+                        props.classNames?.divider
+                            ? props.classNames.divider
+                            : ""
+                    }
+                    style={
+                        props.styles?.divider ? props.styles.divider : {}
+                    }></div>
+                <div
+                    {...props.props?.footer}
+                    className={
+                        props.classNames?.footer ? props.classNames.footer : ""
+                    }
+                    style={
+                        props.styles?.footer ? props.styles.footer : {}
+                    }></div>
+            </div>
         </>
     );
 }

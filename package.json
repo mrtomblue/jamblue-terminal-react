@@ -2,7 +2,8 @@
     "name": "@jamblue/terminal-react",
     "version": "0.1.1",
     "description": "@jamury/terminal component built for react",
-    "main": "cjs/main.js",
+    "module": "cjs/main.tsx",
+    "main": "cjs/main.tsx",
     "types": "lib/types/main.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,7 +25,7 @@
     },
     "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme",
     "dependencies": {
-        "@jamblue/terminal": "^0.1.7",
+        "@jamblue/terminal": "^0.2.1",
         "@types/react": "^18.2.14",
         "react": "^18.2.0"
     },
