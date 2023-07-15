@@ -18,3 +18,8 @@ tsconfig.json
 
 # other ignore files
 .git
+
+# testing feature
+beta.*.cjs
+beta.*.mjs
+beta.*.js

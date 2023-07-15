@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "allowJs": true,
+        "removeComments": true,
+        "noImplicitAny": true,
+
+        "jsx": "react-jsx",
+        "target": "es6",
+
+        "declaration": true,
+        "outDir": "./lib",
+        "emitDeclarationOnly": true,
+        "declarationDir": "./lib",
+        "declarationMap": true,
+        "sourceMap": true,
+        "sourceRoot": "./src"
+        // "mapRoot": "./lib"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "**/tests/*", "./build.cjs"]
+}

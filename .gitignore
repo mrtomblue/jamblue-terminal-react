@@ -10,3 +10,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+
+# testing feature
+beta.*.cjs
+beta.*.mjs
+beta.*.js

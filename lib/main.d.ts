@@ -41,3 +41,4 @@ interface TerminalWindowProps {
 }
 export declare function TerminalWindow(props: TerminalWindowProps): import("react/jsx-runtime").JSX.Element;
 export {};
+//# sourceMappingURL=main.d.ts.map

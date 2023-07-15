@@ -1,13 +1,15 @@
 {
     "name": "@jamblue/terminal-react",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "@jamury/terminal component built for react",
-    "module": "cjs/main.tsx",
+    "module": "esm/main.tsx",
     "main": "cjs/main.tsx",
-    "types": "cjs/main.d.ts",
+    "types": "lib/main.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc"
+        "build": "tsc --project tsconfig.esm.json & tsc --project tsconfig.cjs.json",
+        "prepublish": "npm update @jamblue/terminal && npm run build && npm run test",
+        "postpublish": "echo \"Now go update the repository :)\""
     },
     "repository": {
         "type": "git",
@@ -18,14 +20,16 @@
         "ui",
         "component"
     ],
-    "author": "opensource@mrtomblue.com",
+    "author": "mrtomblue <opensource@mrtomblue.com>",
     "license": "GPL-3.0-or-later",
     "bugs": {
         "url": "https://github.com/mrtomblue/jamblue-terminal-react/issues"
     },
     "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme",
+    "peerDependencies": {
+        "@jamblue/terminal": "^0.2.1"
+    },
     "dependencies": {
-        "@jamblue/terminal": "^0.2.1",
         "@types/react": "^18.2.14",
         "react": "^18.2.0"
     },

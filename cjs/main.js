@@ -3,44 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TerminalWindow = exports.TerminalWindowContextProvider = exports.useTerminalWindow = void 0;
 const react_1 = require("react");
 const jsx_runtime_1 = require("react/jsx-runtime");
-// import {
-//     Box,
-//     Container,
-//     createStyles,
-//     Divider,
-//     Flex,
-//     FocusTrap,
-//     Group,
-//     Input,
-//     Paper,
-//     ScrollArea,
-//     Stack,
-//     Text,
-//     ThemeIcon,
-// } from "@mantine/core";
-// import { useForm } from "@mantine/form";
-// import { useDisclosure } from "@mantine/hooks";
-// import { IconExclamationCircle } from "@tabler/icons-react";
-// import {
-//     IconAlertTriangle,
-//     IconChevronRight,
-//     IconCode,
-//     IconTerminal,
-//     IconTerminal2,
-// } from "@tabler/icons-react";
 const terminal_1 = require("@jamblue/terminal");
 const react_2 = require("react");
-// export const TerminalWindowContext = createContext(null);
 const TerminalWindowContext = (0, react_2.createContext)({});
 const useTerminalWindow = () => (0, react_2.useContext)(TerminalWindowContext);
 exports.useTerminalWindow = useTerminalWindow;
-// useContextAndErrorIfNull(TerminalWindowContext);
 function TerminalWindowContextProvider(props) {
     const initialStates = {
         text: "Welcome :)",
-        // type: "normal",
         type: "system",
-        // mode: "command",
         icon: "terminal",
     };
     const [ConsoleLines, setConsoleLines] = (0, react_2.useState)([
@@ -55,7 +26,6 @@ exports.TerminalWindowContextProvider = TerminalWindowContextProvider;
 function TerminalWindow(props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
     const { Terminal, ConsoleLines, setConsoleLines } = (0, exports.useTerminalWindow)();
-    // const [active, { toggle }] = useDisclosure(false);
     const form = {
         text: (value) => /^[a-z0-9-_ ]*$/i.test(value)
             ? null
@@ -71,20 +41,15 @@ function TerminalWindow(props) {
         variant: "",
     });
     const [ActiveLineType, setActiveLineType] = (0, react_2.useState)("normal");
-    // const [ActiveLineIcon, setActiveLineIcon] = useState("normal");
     const [ActiveLineText, setActiveLineText] = (0, react_2.useState)("");
-    // const [ActiveLineIcon, setActiveLineType] = useState(IconChevronRight);
     const ConsoleLineTextColorSelector = (item, theme) => {
         switch (item.type) {
             case "system":
-                // return theme.colors.gray[6];
                 return "gray";
             case "error":
-                // return theme.colors.red[6];
                 return "red";
             case "normal":
             default:
-                // return theme.black;
                 return "black";
         }
     };
@@ -104,10 +69,6 @@ function TerminalWindow(props) {
                 break;
             case "normal":
             default:
-                // result.color = null;
-                // result.variant = null;
-                // result.color = "currentcolor";
-                // result.variant = "currentcolor";
                 result.color = "";
                 result.variant = "";
         }
@@ -120,11 +81,9 @@ function TerminalWindow(props) {
                 return "italic";
             case "normal":
             default:
-                // return null;
                 return "";
         }
     };
-    // Terminal.log("ahah")
     const StyledConsoleLines = ConsoleLines.map((item, ii) => {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return ((0, react_1.createElement)("div", Object.assign({}, (_a = props.props) === null || _a === void 0 ? void 0 : _a.lines, { className: ((_b = props.classNames) === null || _b === void 0 ? void 0 : _b.lines) ? props.classNames.lines : "", style: ((_c = props.styles) === null || _c === void 0 ? void 0 : _c.lines)
@@ -139,8 +98,6 @@ function TerminalWindow(props) {
             (0, jsx_runtime_1.jsx)("div", Object.assign({}, (_d = props.props) === null || _d === void 0 ? void 0 : _d.lines, { className: ((_e = props.classNames) === null || _e === void 0 ? void 0 : _e.icons) ? props.classNames.icons : "", style: ((_f = props.styles) === null || _f === void 0 ? void 0 : _f.icons)
                     ? props.styles.icons
                     : {
-                        // backgroundColor:
-                        // ConsoleLineIconColorSelector(item).variant === "light"? "currentcolor" :,
                         borderRadius: 24,
                         color: ConsoleLineIconColorSelector(item)
                             .color,
@@ -173,8 +130,6 @@ function TerminalWindow(props) {
                                     icon: ActiveLineIcon,
                                 });
                                 Terminal.parse("value.command.text");
-                                // form.setFieldValue("command.text", "");
-                                // Terminal.removeAllLines();
                             }, children: (0, jsx_runtime_1.jsxs)("div", { style: {
                                     gap: 12,
                                     justifyContent: "flex-start",
@@ -186,8 +141,6 @@ function TerminalWindow(props) {
                                             : "", style: ((_l = props.styles) === null || _l === void 0 ? void 0 : _l.icons)
                                             ? props.styles.icons
                                             : {
-                                                // backgroundColor:
-                                                // ConsoleLineIconColorSelector(item).variant === "light"? "currentcolor" :,
                                                 borderRadius: 24,
                                                 color: ActiveLineIcon.color,
                                             }, children: (0, jsx_runtime_1.jsx)(ActiveLineIcon.icon, { className: "", style: {
