@@ -1,9 +1,9 @@
 {
     "name": "@jamblue/terminal-react",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "@jamury/terminal component built for react",
-    "module": "esm/main.tsx",
-    "main": "cjs/main.tsx",
+    "module": "esm/main.js",
+    "main": "cjs/main.js",
     "types": "lib/main.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -27,7 +27,7 @@
     },
     "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme",
     "peerDependencies": {
-        "@jamblue/terminal": "^0.2.1"
+        "@jamblue/terminal": "^0.2.4"
     },
     "dependencies": {
         "@types/react": "^18.2.14",
