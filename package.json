@@ -32,7 +32,7 @@
     },
     "homepage": "https://github.com/mrtomblue/jamblue-terminal-react#readme",
     "peerDependencies": {
-        "@jamblue/terminal": "^0.2.4"
+        "@jamblue/terminal": "^0.2.5"
     },
     "dependencies": {
         "@types/react": "^18.2.14",
