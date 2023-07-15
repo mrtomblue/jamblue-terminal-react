@@ -1,10 +1,15 @@
 {
     "name": "@jamblue/terminal-react",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "@jamury/terminal component built for react",
     "module": "esm/main.js",
     "main": "cjs/main.js",
     "types": "lib/main.d.ts",
+    "exports": {
+        "import": "./esm/main.js",
+        "require": "./cjs/main.js",
+        "default": "./esm/main.js"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc --project tsconfig.esm.json & tsc --project tsconfig.cjs.json",
